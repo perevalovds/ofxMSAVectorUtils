@@ -36,9 +36,13 @@ std::string to_string(const vector<T>& v0) {
 
 //-------------------------------------------------------
 // return weighted sum (v0 * w0) + (v1 * w1)
+// one of operands vectors can be empty
 template <typename T>
 vector<T> weighted_sum(const vector<T>& v0, T w0, const vector<T>& v1, T w1) {
-    assert(v0.size() == v1.size());
+	if (v0.empty()) return scaled(v1, w1);
+	if (v1.empty()) return scaled(v0, w0);
+	
+	assert(v0.size() == v1.size());
     int n = (int)v0.size();
     vector<T> vr(n);
     for(int i=0; i<n; i++) vr[i] = (v0[i] * w0) + (v1[i] * w1);
@@ -48,7 +52,8 @@ vector<T> weighted_sum(const vector<T>& v0, T w0, const vector<T>& v1, T w1) {
 
 
 //-------------------------------------------------------
-// return sum of two vectors
+//return sum of two vectors
+//one of vectors can be empty
 template <typename T>
 vector<T> add(const vector<T>& v0, const vector<T>& v1) {
     return weighted_sum(v0, (T)1, v1, (T)1);
